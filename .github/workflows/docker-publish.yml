@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: docker build & push
+    name: docker build & push new
     runs-on: ubuntu-latest
     steps:
       - name: checkout scm
