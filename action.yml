@@ -1,5 +1,5 @@
 name: 'GitHub Action for Firebase'
-author: 'Jeremy Shore'
+author: 'Surekha Verma'
 description: 'Wraps the firebase-tools CLI to enable common commands.'
 branding:
   icon: 'package'
