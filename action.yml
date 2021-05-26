@@ -1,4 +1,4 @@
-name: 'GitHub Action for Firebase'
+name: 'GitHub Action for Firebase '
 author: 'Surekha Verma'
 description: 'Wraps the firebase-tools CLI to enable common commands.'
 branding:
