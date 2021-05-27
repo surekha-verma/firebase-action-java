@@ -19,6 +19,7 @@ RUN apk add maven
 RUN npm i -g npm@7.10.0
 RUN npm i -g firebase-tools@9.10.0
 
+ENV JAVA_HOME=$JAVA_HOME:/jre
 ENV PATH=$PATH:$JAVA_HOME:/jre/bin
 
 COPY LICENSE README.md /
