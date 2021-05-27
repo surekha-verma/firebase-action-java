@@ -1,4 +1,4 @@
-FROM node:12.22.1-alpine
+FROM maven:3.6.3-openjdk-11
 
 LABEL version="1.2.1"
 LABEL repository="https://github.com/surekha-verma/firebase-action-java"
@@ -7,20 +7,38 @@ LABEL maintainer="Surekha Verma <surekha-verma@github.com>"
 
 LABEL com.github.actions.name="GitHub Action for Firebase"
 LABEL com.github.actions.description="Wraps the firebase-tools CLI to enable common commands."
-LABEL com.github.actions.icon="package"
-LABEL com.github.actions.color="gray-dark"
+
 
 USER root
 
-RUN apk --update add openjdk8-jre
-RUN apk add --no-cache git
-RUN apk add maven
+# Create the home directory for the new app user.
+RUN mkdir -p /home/uid1000
 
-RUN npm i -g npm@7.10.0
-RUN npm i -g firebase-tools@9.10.0
+# Create an app user so our program doesn't run as root.
+RUN groupadd -r uid1000 &&\
+    useradd -r -u 1000 -g uid1000 -d /home/uid1000 -s /sbin/nologin -c "Docker image user" uid1000
 
-ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk/jre
-ENV PATH=$PATH:$JAVA_HOME/bin
+# Set the home directory to our app user's home.
+ENV HOME=/home/uid1000
+
+RUN chown -R uid1000:1000 /home/uid1000
+
+USER uid1000
+
+#########################################
+#### ---- Node from NODESOURCES ---- ####
+#########################################
+# Ref: https://github.com/nodesource/distributions
+ARG NODE_VERSION=${NODE_VERSION:-14}
+ENV NODE_VERSION=${NODE_VERSION}
+RUN apt-get update -y && \
+    apt-get install -y sudo curl git xz-utils && \
+    curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - && \
+    apt-get install -y nodejs
+    
+RUN cd ${SCRIPT_DIR}; ${SCRIPT_DIR}/setup_npm_proxy.sh
+
+WORKDIR .
 
 COPY LICENSE README.md /
 COPY "entrypoint.sh" "/entrypoint.sh"
