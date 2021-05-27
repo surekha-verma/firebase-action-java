@@ -46,5 +46,5 @@ CMD ["--help"]
 #RUN npm i -g npm@7.10.0
 #RUN npm i -g firebase-tools@9.10.0
 
-#ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk/jre
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
 #ENV PATH=$PATH:$JAVA_HOME/binFROM node:12.22.1-alpine
