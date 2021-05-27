@@ -30,6 +30,9 @@ RUN apt-get update -y && \
 RUN apt-get update && \
     npm install -g firebase-tools
 
+RUN apt-get update && \
+    apt-get install -y openjdk-11-jre-headless
+
 RUN chown -R root:root  /root/.npm
 
 
