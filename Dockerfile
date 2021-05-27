@@ -1,4 +1,4 @@
-FROM node:12.22.1-alpine
+FROM maven:3.6.3-openjdk-11
 
 LABEL version="1.2.1"
 LABEL repository="https://github.com/surekha-verma/firebase-action-java"
@@ -12,15 +12,26 @@ LABEL com.github.actions.color="gray-dark"
 
 USER root
 
-RUN apk --update add openjdk8-jre
-RUN apk add --no-cache git
-RUN apk add maven
+#RUN apk --update add openjdk8-jre
+#RUN apk add --no-cache git
+#RUN apk add maven
 
-RUN npm i -g npm@7.10.0
-RUN npm i -g firebase-tools@9.10.0
+#########################################
+#### ---- Node from NODESOURCES ---- ####
+#########################################
+# Ref: https://github.com/nodesource/distributions
+ARG NODE_VERSION=${NODE_VERSION:-14}
+ENV NODE_VERSION=${NODE_VERSION}
+RUN apt-get update -y && \
+    apt-get install -y sudo curl git xz-utils && \
+    curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - && \
+    apt-get install -y nodejs
 
-ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk/jre
-ENV PATH=$PATH:$JAVA_HOME/bin
+RUN apt-get update && \
+    npm install -g firebase-tools
+
+RUN chown -R root:root  /root/.npm
+
 
 COPY LICENSE README.md /
 COPY "entrypoint.sh" "/entrypoint.sh"
@@ -28,3 +39,9 @@ RUN chmod +x "/entrypoint.sh"
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["--help"]
+
+#RUN npm i -g npm@7.10.0
+#RUN npm i -g firebase-tools@9.10.0
+
+#ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk/jre
+#ENV PATH=$PATH:$JAVA_HOME/binFROM node:12.22.1-alpine
