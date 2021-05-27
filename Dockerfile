@@ -35,6 +35,7 @@ RUN apt-get update && \
 
 RUN chown -R root:root  /root/.npm
 
+ENV JAVA_HOME=/usr/local/openjdk-11/bin
 
 COPY LICENSE README.md /
 COPY "entrypoint.sh" "/entrypoint.sh"
@@ -46,5 +47,5 @@ CMD ["--help"]
 #RUN npm i -g npm@7.10.0
 #RUN npm i -g firebase-tools@9.10.0
 
-ENV JAVA_HOME=/usr/local/openjdk-11/bin
+
 #ENV PATH=$PATH:$JAVA_HOME/binFROM node:12.22.1-alpine
