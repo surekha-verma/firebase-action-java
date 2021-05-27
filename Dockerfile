@@ -20,7 +20,7 @@ RUN npm i -g npm@7.10.0
 RUN npm i -g firebase-tools@9.10.0
 
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk/jre
-ENV PATH=$PATH:$JAVA_HOME:/bin
+ENV PATH=$PATH:$JAVA_HOME/bin
 
 COPY LICENSE README.md /
 COPY "entrypoint.sh" "/entrypoint.sh"
